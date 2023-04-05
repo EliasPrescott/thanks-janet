@@ -1,6 +1,3 @@
-(defn attribute->string [key value]
-  (string key "=\"" value "\""))
-
 (defn attrbute-table->string [attributes]
   (string/join (map 
     (fn [pair] (string (get pair 0)
@@ -13,11 +10,7 @@
 (defn tag->string [tagName attributes content]
   (if (empty? attributes)
     (string/join ["<" tagName ">" content "</" tagName ">"])
-    (string/join ["<" tagName " "
-                  (attrbute-table->string attributes)
-                  ">"
-                  content
-                  "</" tagName ">"])))
+    (string/join ["<" tagName " " (attrbute-table->string attributes) ">" content "</" tagName ">"])))
 
 (defn html->string [x]
   (match x
@@ -36,9 +29,7 @@
     _ (string x)))
 
 (defmacro html [& body]
-  ~(string/join ["<html>"
-                 (string/join (map html->string [,;body]))
-                 "</html>"]))
+  ~(string/join ["<html>" (string/join (map html->string [,;body])) "</html>"]))
 
 (defn main [&]
   (print (html [:h1 @{:class "alternate-heading"}
